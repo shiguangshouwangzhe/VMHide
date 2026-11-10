@@ -6,9 +6,10 @@ jobs:
   build:
     runs-on: macos-15-intel
     steps:
-      - name: Checkout source edb3de9 (1.1.2)
+      - name: Checkout from upstream Carnations-Botanica/VMHide
         uses: actions/checkout@v4
         with:
+          repository: Carnations-Botanica/VMHide
           ref: edb3de9
           submodules: recursive
 
@@ -20,4 +21,3 @@ jobs:
         with:
           name: VMHide-1.1.2-x86
           path: build/Release/VMHide.kext
-
