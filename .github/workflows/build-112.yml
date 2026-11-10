@@ -1,0 +1,23 @@
+name: Build VMHide 1.1.2
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout source edb3de9 (1.1.2)
+        uses: actions/checkout@v4
+        with:
+          ref: edb3de9
+          submodules: true
+          depth: 0
+
+      - name: Run Xcode build
+        run: xcodebuild -scheme VMHide -configuration Release
+
+      - name: Upload compiled kext
+        uses: actions/upload-artifact@v4
+        with:
+          name: VMHide-1.1.2-x86
+          path: build/Release/VMHide.kext
