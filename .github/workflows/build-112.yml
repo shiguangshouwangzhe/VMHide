@@ -1,4 +1,4 @@
-name: Build VMHide 1.1.2
+name: Build VMHide 1.1.2 (edb3de9 x86_64)
 on:
   workflow_dispatch:
 
@@ -6,18 +6,27 @@ jobs:
   build:
     runs-on: macos-15-intel
     steps:
-      - name: Checkout from upstream Carnations-Botanica/VMHide
-        uses: actions/checkout@v4
-        with:
-          repository: Carnations-Botanica/VMHide
-          ref: edb3de9
-          submodules: recursive
+      - name: Git clone upstream repo
+        run: |
+          git clone https://github.com/Carnations-Botanica/VMHide.git src
+          cd src
+          git checkout edb3de9
+          git submodule update --init --recursive
 
-      - name: Run Xcode build for x86_64
-        run: xcodebuild -scheme VMHide -configuration Release -arch x86_64
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Upload compiled kext
+      - name: Xcode build Release x86_64
+        run: |
+          cd src
+          xcodebuild -scheme VMHide \
+                     -configuration Release \
+                     -arch x86_64 \
+                     ONLY_ACTIVE_ARCH=NO \
+                     build
+
+      - name: Upload VMHide.kext
         uses: actions/upload-artifact@v4
         with:
-          name: VMHide-1.1.2-x86
-          path: build/Release/VMHide.kext
+          name: VMHide-1.1.2-x86_64
+          path: src/build/Release/VMHide.kext
