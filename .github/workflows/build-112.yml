@@ -4,7 +4,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15-intel
     steps:
       - name: Checkout source edb3de9 (1.1.2)
         uses: actions/checkout@v4
@@ -13,8 +13,8 @@ jobs:
           submodules: true
           depth: 0
 
-      - name: Run Xcode build
-        run: xcodebuild -scheme VMHide -configuration Release
+      - name: Run Xcode build for x86_64
+        run: xcodebuild -scheme VMHide -configuration Release -arch x86_64
 
       - name: Upload compiled kext
         uses: actions/upload-artifact@v4
