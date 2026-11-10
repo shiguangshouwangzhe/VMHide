@@ -10,8 +10,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: edb3de9
-          submodules: true
-          depth: 0
+          submodules: recursive
 
       - name: Run Xcode build for x86_64
         run: xcodebuild -scheme VMHide -configuration Release -arch x86_64
@@ -21,3 +20,4 @@ jobs:
         with:
           name: VMHide-1.1.2-x86
           path: build/Release/VMHide.kext
+
